@@ -1,0 +1,477 @@
+
+<!-- saved from url=(0067)http://www.cs.bu.edu/fac/betke/cs440/restricted/p1/p1-template.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title> CS640: HW[1] Student Name [Shifeng Li]  </title>
+<style>
+<!--
+body{
+font-family: 'Trebuchet MS', Verdana;
+}
+p{
+font-family: 'Trebuchet MS', Times;
+margin: 10px 10px 15px 20px;
+}
+h3{
+margin: 5px;
+}
+h2{
+margin: 10px;
+}
+h1{
+margin: 10px 0px 0px 20px;
+}
+div.main-body{
+align:center;
+margin: 30px;
+}
+hr{
+margin:20px 0px 20px 0px;
+}
+-->
+</style>
+</head>
+
+<body>
+<center>
+<a href="http://www.bu.edu"><img border="0" src="http://www.cs.bu.edu/fac/betke/images/bu-logo.gif" width="119" height="120"></a>
+</center>
+
+<h1>Neural Network</h1>
+<p> 
+ CS 640 Programming Assignment 1 <br>
+  Shifeng Li<br>
+ Teammate: Mingrui Yang <br>
+    2018/02/28 
+</p>
+
+<div class="main-body">
+<hr>
+<h2> Problem Definition </h2>
+<p>
+<col>
+<li> In this Project Assignment, we need to deal with several problems about Neural Network. First, we need to finish Linear Regression using 2-Layer NN on the Linear data set. </li>
+<li> Then, we should try the same algorithm on non-Linear data set and see the result about the algorithm. </li>
+<li> After that, we need to finish the algorithm using Logistic Regression with 3-Layer NN on both Linear data set and non-Linear data set and show the decision boundaries of both data sets. </li>
+<li> Then, we will learn how Learning Rate effects the results in Logistic Regression by trying different Learning Rates on our data sets and get the results. </li>
+<li> After Learning Rate, we should see how the number of hidden layers effect the results. </li>
+<li> What's more, we also need to do learn the effects about overfitting and the ways to deal with that problem. Finally, we shall finish the L2 Regulation algorithm and see how it deal with the problem of overfitting. </li>
+</col>
+</p>
+<p>
+<tr> <h4> We have those overall goals about this Project Assignment which are listed below: </h4> </tr>
+    <col>
+    <li>Understand how Neural Network works.</li>
+    <li>Implement a simple Neural Network.</li>
+    <li>Understand the role of different parameters of a Neural Network, such as Learning Rate.</li>
+    <li>Understand the rule of the Neural Network calculation. </li>
+    </col>
+</p>
+
+<hr>
+<h2> Method and Implementation </h2>
+    <h3>Total description</h3>
+<p>
+    <ol>
+        <li>Design a Neural Network architecture (connected with different layers and decide nodes in each layers) where: 
+<ol style="list-style-type: lower-roman;">
+    <li>number of input units = number of features in dataset.
+            </li>
+    <li>number of output units = number of classes.
+</li>
+</ol></li>
+        <li>Training a Neural Network by following the rules:
+        </li><img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture.jpg" width="700" height="350">
+        <li>Draw the Non-Linear and Linear decision boundaries of the source data in 2-Layer Neural Network and 3-Layer Neural Network.</li>
+        <li>Evaluating the model</li>
+        <li>Comparing accuracies between different Learning Rates.</li>
+        <li>Comparing accuracies between different numbers of hidden nodes.</li>
+        <li>Implementing L2 regularization in Non-Linear and Linear model.</li>
+        <li>Recognizing the hand-written digits data.</li>
+</ol>
+</p>
+ <h3>Code detail</h3>
+<p>The whole project contains eight components :
+    <ol>
+        <li>Define Logistic Regression Model</li>
+        <ul>
+            <li>__init__(self, input_dim, output_dim,i=1,hidden_node =20)</li>Initializing the parameters of Neural Network about theta and bias. Choosing the methods of dealing with 2-Layer NN and 3-Layer NN.
+			If i is not equal to 1, then it chooses 2-Layers NN and if we set i = 1, then it chooses 3-Layers NN. 
+            <li>compute_cost(self, X, y)</li>Computing the total cost of the dataset.(2-Layer Neural Network)
+            <li>compute_cost_NN(self, X, y)</li>Computing the total cost of the dataset.(3-Layer Neural Network)
+            <li>predict(self, X)</li>Making a prediction based on current model parameters.(2-Layer Neural Network)	
+            <li>predict_NN(self, X)</li> Making a prediction based on current model parameters.(3-Layer Neural Network)
+            <li>fit(self, X, y, num_epochs=1000, lr=0.01)</li>Fitting the model according to the given training data.(2-Layer Neural Network)
+            <li>fit_NN(self, X, y, num_epochs=1000, lr=0.001)</li>Fitting the model according to the given training data.(3-Layer Neural Network)
+			<li>fit_over(self, X, y, num_epochs=1000, lr=0.01, lamd=0.01)</li>Fit the model according to the given 2-Layer training data.(for L2 regularization)
+            <li>fit_NNover(self, X, y, num_epochs=1000, lr=0.01, lamd=0.01)</li>Fitting the model according to the given 3-Layer training data.(for L2 regularization)
+            <li>plot_decision_boundary(model, X, y)</li>Printing the decision boundary given by the 2-Layer model.
+			<li>plot_decision_boundary_NN(model, X, y)</li>Printing the decision boundary given by the 3-Layer model.
+        </ul>
+        <li>Initialization</li>Loading and ploting the source data, then initializing the model.
+        <li>Train Classification Model</li> Training the model and plotting the decision boundaries before training.
+        <li>Model Evaluation</li>Computing the accuracies, displaying confusion matrix and computing the cost.
+        <li>Compare Learning Rate</li>Comparing accuracies between different Learning Rates.
+        <li>Compare Number Nodes in Hidden Layer</li>Comparing accuracies between different numbers of hidden nodes.
+        <li>Implement L2 regularization</li>Training the model, ploting the trained data of Linear and Non-Linear decision boundaries, computing the accuracies, displaying confusion matrix and computing cost.
+        <li>Recogniz the hand-written digits data</li>Recognizing the hand-written digits and printing the evaluations.
+
+</ol>
+</p>
+
+<hr>
+<h2>Experiments</h2>
+<h4>Datasets</h4>
+<p>For the top 7 questions, we use DATA/LinearX.csv, DATA/LinearY.csv, DATA/Non-LinearX.csv, DATA/Non-LinearY.csv as the source data, corresponding to Linear Data array, 
+labels corresponding to Linear data, Non-Linear data array, labels corresponding to Non-Linear data.</p>
+<p>For the last extra-credit problem, we use the model to train DATA/Digit_X_train.csv and DATA/Digit_y_train.csv, then test the model on DATA/Digit_X_test.csv and DATA/Digit_y_test.csv.</p>
+<h4>Number of tests</h4>
+<p>We try different cases to answer provided questions</p>
+<ol >
+    <li>Implementing a 2-Layer Neural Network and plotting the decision boundaries for the model of Linear data.</li>
+    <li>Implementing a 2-Layer Neural Network and plotting the decision boundaries for the model of Non-Linear data.</li>
+    <li>Implementing a 3-Layer Neural Network and plotting the decision boundaries for the model of Linear data.</li>
+    <li>Implementing a 3-Layer Neural Network and plotting the decision boundaries for the model of Non-Linear data.</li>
+    <li>Comparing accuracies between different Learning Rates.</li>
+    <li>Comparing accuracies between different numbers of hidden nodes for Linear decision boundries.</li>
+    <li>Implementing L2 regularization and plotting the Non-Linear and Linear decision boundries.</li>
+    <li>Recognizing the hand-written digits and printing the evaluations.</li>
+</ol>
+<h4>Evaluation</h4>
+<p>We use accuracy , confusion matrix and the cost function to evaluate the results.</p>
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture22.jpg" width="340" height="110"> </td> 
+<p>Cost function is defined as below: </p>
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture23.jpg" width="960" height="120"> </td> 
+
+<hr>
+<h2> Results</h2>
+<p>
+<ol>
+<h4> <li> Refering to the logistic regression code provided in Lab 3, implement a 2-Layer neural
+  network (without any hidden layers). You will have to implement/modify 3
+  functions: compute_cost(), predict() and fit(). Train this model using
+  the dataset DATA/LinearX.csv, DATA/LinearY.csv and visualize the decision
+  boundary learned by your model.
+    </li> </h4>
+<p>
+<table>
+<tbody><tr><td colspan="3"><center><h3>Results</h3></center></td></tr>
+<tr>
+</tr>
+<tr>
+<td><h4> Trial </h4></td> <td><h4> Source Image </h4></td> <td><h4> Result Image </h4></td> <td><h4> Accuracy and confusion matrix </h4></td> <td><h4> Cost </h4></td>
+</tr>
+<tr>
+  
+  <td> 2-Layer Linear </td>  
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture1.jpg" width="360" height="230"> </td> 
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture2.jpg" width="360" height="230"> </td>
+    <td><img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture3.jpg" width="200" height="130"></td>  
+    <td><h4> Cost = 0.207171752579 </h4></td>  
+</tr> 
+
+</tbody></table>
+<tr>
+  <td><h4>
+  Overall Result: We can detect the decision boundary of Linear data pretty good and get a high accuracy. 
+  </h4></td>
+</tr>
+</p>
+<h4> <li>  Now, train your Neural Network model using the dataset DATA/Non-LinearX.csv,
+  DATA/Non-LinearY.csv and visualize the decision boundary learned by your
+  model. Can your 2-Layer Neural Network model learn non-Linear decision
+  boundaries? Why or why not?
+    </li> </h4>
+<p>
+<table>
+<tbody><tr><td colspan="3"><center><h3>Results</h3></center></td></tr>
+<tr>
+</tr>
+<tr>
+<td><h4> Trial </h4></td> <td><h4> Source Image </h4></td> <td><h4> Result Image </h4></td> <td><h4> Accuracy and confusion matrix </h4></td> <td><h4> Cost </h4></td>
+</tr>
+<tr>
+  
+  <td> 2-Layer Non-Linear </td>  
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture4.jpg" width="360" height="230"> </td> 
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture5.jpg" width="360" height="230"> </td>
+    <td><img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture6.jpg" width="200" height="130"></td> 
+    <td><h4> Cost = 0.290882470401 </h4></td>  
+</tr> 
+
+</tbody></table>
+<tr>
+  <td><h4>
+  Overall Result: We fail to detect the decision boundary of Non-Linear data very precisely and the accuracy is also not very good comparing with the result of Linear data. 
+  </h4></td>
+</tr>
+</p>
+<h4> <li> Implement a Neural Network class with 1 hidden layer. Train this model
+  using the dataset DATA/LinearX.csv, DATA/LinearY.csv and visualize the
+  decision boundary learned by your model. Then, train your Neural Network
+  model using the dataset DATA/Non-LinearX.csv, DATA/Non-LinearY.csv and visualize the
+  decision boundary learned by your model. Can your 3-Layer Neural Network
+  model (with one hidden layer) learn non-Linear decision boundaries? Why
+  or why not?
+    </li> </h4>
+<p>
+<table>
+<tbody><tr><td colspan="3"><center><h3>Results</h3></center></td></tr>
+<tr>
+</tr>
+<tr>
+<td><h4> Trial </h4></td> <td><h4> Source Image </h4></td> <td><h4> Result Image </h4></td> <td><h4> Accuracy and confusion matrix </h4></td> <td><h4> Cost </h4></td>
+</tr>
+<tr>
+  
+  <td> 3-Layer Linear </td>  
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture1.jpg" width="360" height="230"> </td> 
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture7.jpg" width="360" height="230"> </td>
+    <td><img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture8.jpg" width="200" height="130"></td> 
+    <td><h4> Cost = 0.136419928301</td>  
+</tr> 
+
+  
+  <td> 3-Layer Non-Linear </td>  
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture4.jpg" width="360" height="230"> </td> 
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture9.jpg" width="360" height="230"> </td>
+    <td><img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture10.jpg" width="200" height="130"></td> 
+    <td><h4> Cost = 0.0825241897991 </h4></td>  
+</tr> 
+</tbody></table>
+<tr>
+  <td><h4>
+  Overall Result: Comparing with the result of 2-Layer NN in problem 2, we get a huge improvement on both decision boundaries and accuracies by using 3-Layer NN.  
+  </h4></td>
+</tr>
+</p>
+
+<h4> <li> What effect does Learning Rate have on how your Neural Network is
+  trained? Illustrate your answer by training your model using different
+  Learning Rates.
+    </li> </h4>
+<p>
+<table>
+<tbody><tr><td colspan="3"><center><h3>Results</h3></center></td></tr>
+<tr>
+</tr>
+<tr>
+ <td><h4> Trial </h4></td> <td><h4> DATA </h4></td> <td><h4> Result Image </h4></td> 
+</tr>
+<tr>
+  
+  <td> Learning Rate of Linear Data</td>  
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture11.jpg" width="430" height="210"> </td> 
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture12.jpg" width="400" height="270"> </td>
+  </tr>
+  <tr>
+  <td> Learning Rate of Non-Linear Data</td>  
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture13.jpg" width="430" height="210"> </td> 
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture14.jpg" width="400" height="270"> </td>
+</tr> 
+
+</tbody></table>
+<tr>
+  <td><h4>
+  Overall Result: According to the results, we find that Learning Rate has some effects to our accuracies. When our cycle index is small, 
+  the accuracy will increase as the Learning Rate increases. However, there's a small descent in accuracies for Non-Linear data when the 
+  Learning Rate is in the range of 0.002 to 0.004.
+  </h4></td>
+</tr>
+</p>
+<h4> <li> What effect does the number of nodes in the hidden layer have on how
+  your Neural Network is trained? Illustrate your answer by training your
+  model using differnet numbers of hidden layer nodes.
+    </li> </h4>
+<p>
+<table>
+<tbody><tr><td colspan="3"><center><h3>Results</h3></center></td></tr>
+<tr>
+</tr>
+<tr>
+ <td><h4> Trial </h4></td> <td><h4> DATA </h4></td> <td><h4> Result Image </h4></td> 
+</tr>
+<tr>
+  <td> Hidden Layer nodes of Linear Data</td>  
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture15.jpg" width="430" height="210"> </td> 
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture16.jpg" width="400" height="270"> </td>
+</tr> 
+<tr>
+  <td> Hidden Layer nodes of Non-Linear Data</td>  
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture17.jpg" width="430" height="210"> </td> 
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture18.jpg" width="400" height="270"> </td>
+</tr> 
+</tbody></table>
+<tr>
+  <td><h4>
+  Overall Result: According to the results, we find that the number of hidden nodes also has some effects to our accuracies. For Linear data, 
+  when the number of hidden nodes is in the range of 40 to 160, the algorithm performs well in the accuracy. When we have too many nodes or not have 
+  enough nodes, the results will be worse. However, for the Non-Linear data, there's a samll descent in accuracy when the number of hidden nodes is in the 
+  range of 120 to 160. 
+  </h4></td>
+</tr>
+</p>
+<h4><li> What is overfitting and why does it occur in practice? Name and
+  briefly explain 3 ways to reduce overfitting. </h4>	
+  <td>
+  Overfitting, which is caused by a hypothesis function that fits the available data but does not generalize well to predict new data.
+  It is usually caused by adding too many features and producing a complicated function that creates a lot of unnecessary curves and angles unrelated to the data.
+	<p>
+	<col>
+	<h4> i. Cross-validation </h4>
+	<td>
+	The idea is using the initial training data to generate multiple mini train-test splits. Then use these splits to tune the model.
+	</td>
+	<h4> ii. Increasing the number of training data </h4>
+	<td>
+	The idea is increasing the amount of training data. It won’t work everytime, but training with more data can help algorithms detect the signal better and improve the result.
+	</td>	
+	<h4> iii. L2 Regularization </h4>
+	<td>
+	The idea is increasing the squared sum of all weights into the cost function so that we can avoid too many features, which always lead to overfitting.
+	</td>
+	</col>
+	</p>
+	
+</li>
+	
+<h4> <li> One common technique used to reduce overfitting is L2
+  regularization. How does L2 regularization prevent overfitting? Implement
+  L2 regularization. How differently does your model perform before and
+  after implementing L2 regularization?
+    </li> </h4>
+<p>
+<table>
+<tbody><tr><td colspan="3"><center><h3>Results</h3></center></td></tr>
+<tr>
+ <td><h4> Trial </h4></td> <td><h4> Source Image </h4></td> <td><h4> Result Image </h4></td> <td><h4> Accuracy and confusion matrix </h4></td> <td><h4> Cost </h4></td>
+</tr>
+<tr>
+  
+  <td> 2-Layer Non-Linear </td>  
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture4.jpg" width="360" height="230"> </td> 
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture5.jpg" width="360" height="230"> </td>
+    <td><img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture19.jpg" width="200" height="130"></td> 
+    <td><h4> Cost = 0.290882479857 </h4></td>  
+</tr> 
+
+  
+  <td> 3-Layer Non-Linear </td>  
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture4.jpg" width="360" height="230"> </td> 
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture9.jpg" width="360" height="230"> </td>
+    <td><img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture20.jpg" width="200" height="130"></td> 
+    <td><h4> Cost = 0.0810422160768 </h4><td>  
+</tr> 
+</tbody></table>
+<tr>
+  <td><h4>
+  Overall Result: According to the results, we find that L2 regularization can deal with the overfitting problem perfectly. 
+  </h4></td>
+</tr>
+</p>
+
+<p>
+<h3> <li> Extra Credit: </h3> <h4> Now, let's try to solve real world problem. 
+  You are given hand-written digits as below, each digit image has been stored in 
+  csv files. You need to implement the Neural Network class with 1 hidden layer to 
+  recognize the hand-written digits, you should train your model on DATA/Digit_X_train.csv
+  and DATA/Digit_y_train.csv, then test your model on DATA/Digit_X_test.csv and DATA/Digit_y_test.csv. 
+  Show your results.
+    </li> </h4>
+<p><h4>Trained digit</h4>
+<img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture21.jpeg" width="720" height="1280">    
+<table>
+<tbody><tr><td colspan="3"><center><h3>Results</h3></center></td></tr>
+<tr>
+</tr>
+<tr>
+  <td><h4> Accuracy and confusion matrix </h4></td> <td><h4> Cost </h4></td>
+</tr>
+
+<tr>
+    <td><img src="http://cs-people.bu.edu/mryang/CS640/Project_1/picture24.jpg" width="650" height="330"></td>
+    <td><h4> Cost = 0.0067695809824 </h4></td>  	
+</tr> 
+
+</tbody></table>
+<tr>
+  <td><h4>
+  Overall Result: According to the results, we find that our algorithm can deal with the hand-written digits recognition problem pretty well. 
+  </h4></td>
+</tr>
+</p>
+</ol> </p>
+
+
+<hr>
+<h2> Discussion </h2>
+
+<ul>
+<h4><li>Strength and Weakness:</li></h4>
+<tr>
+  <td>
+  <h4>Strength: </h4>In this project, we have done pretty good with the Linear data and Non-Linear data. We can detect the decision boundaries well and get pretty high accuracies. 
+  We also learn a lot about the theories about how Neural Network works with Linear Regression and Logistic Regression. 
+  </td>
+</tr>
+<tr>
+  <td>
+  <h4>Weakness: </h4>In this project, we don't have some overfitting data so we don't know whether our algorithms can deal with overfitting problems perfectly. Moreover, we haven't 
+  implemented the Neural Network with more than one hidden layers so that the results cannot be regarded as very precise. Finally, we still have some questions about how the hidden layer 
+  influence the accuracies and some situations like the descent in accuracy when dealing with the Non-Linear data with the number of hidden nodes in the range of 120 to 160. 
+  </td>
+</tr>
+<td>
+</td>
+<h4><li>Successful or Limited and expected result: </li></h4>
+<tr>
+  Overall saying, I think our project and results are really successful because we get pretty good decision boundaries and accuracies. We also learn how the learning rate and the number of hidden nodes 
+  infulence the results and how to choose proper learning rate and hidden nodes number. The results also perform well like what we expected before starting this project. However, there's one limitation that 
+  we don't have some data with overfitting problem so that we don't know whether our algorithms can deal with the overfitting problems perfectly. 
+ </tr>
+<h4><li>Potential future work:</li> </h4>
+<tr>
+  First of all, we shall improve our algorithm and try more data sets to get better more accurate results. What's more, we want to find some data sets with the overfitting problems to test our algorithm 
+  on this aspect and make some improvements if needed. Finally, we also want to try some more complicated Neural Networks with more hidden layers and nodes. 
+</tr>  
+</ul>
+<p></p>
+
+<hr>
+<h2> Conclusions </h2>
+
+<p>
+<tr>
+  We get pretty good decision boundaries and accuracies and learn a lot about how Neural Network works and the algorithms it uses. We also find that we must use multi-layer Neural Network to deal with 
+  Non-Linear data for high accuracies and results. Moreover, we learn how some other factors like learning rate and number of nodes influence the result of Neural Network. 
+  We also get the orientation of improving our project and algorithms.   
+</p>	
+
+
+<hr>
+<h2> Credits and Bibliography </h2>
+<p>
+
+
+
+</p><p>
+<h4> URLs of related materials on the Internet: </h4>
+<li> <a href="https://elitedatascience.com/overfitting-in-machine-learning">https://elitedatascience.com/overfitting-in-machine-learning </a></li>
+<li> <a href="https://en.wikipedia.org/wiki/Overfitting">https://en.wikipedia.org/wiki/Overfitting </a></li>
+<li> <a href="http://blog.csdn.net/zouxy09/article/details/24971995">http://blog.csdn.net/zouxy09/article/details/24971995 </a></li>
+<li> <a href="http://blog.csdn.net/jinping_shi/article/details/52433975">http://blog.csdn.net/jinping_shi/article/details/52433975 </a></li>
+<li> <a href="https://zhuanlan.zhihu.com/p/25707761">https://zhuanlan.zhihu.com/p/25707761 </a></li>
+<li> <a href="http://www.chioka.in/differences-between-l1-and-l2-as-loss-function-and-regularization/">http://www.chioka.in/differences-between-l1-and-l2-as-loss-function-and-regularization/ </a></li>
+</p>
+
+<p>
+<h4> Teammate: 
+<li> Finishing this project with teammate Mingrui Yang. </li></h4>	
+</p>
+<hr>
+</div>
+
+
+
+
+
+</body></html>
