@@ -1,0 +1,224 @@
+
+<!-- saved from url=(0067)http://www.cs.bu.edu/fac/betke/cs440/restricted/p1/p1-template.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title> CS640: HW[2] Student Name [Shifeng Li]  </title>
+<style>
+<!--
+body{
+font-family: 'Trebuchet MS', Verdana;
+}
+p{
+font-family: 'Trebuchet MS', Times;
+margin: 10px 10px 15px 20px;
+}
+h3{
+margin: 5px;
+}
+h2{
+margin: 10px;
+}
+h1{
+margin: 10px 0px 0px 20px;
+}
+div.main-body{
+align:center;
+margin: 30px;
+}
+hr{
+margin:20px 0px 20px 0px;
+}
+-->
+</style>
+</head>
+
+<body>
+<center>
+<a href="http://www.bu.edu"><img border="0" src="http://www.cs.bu.edu/fac/betke/images/bu-logo.gif" width="119" height="120"></a>
+</center>
+
+<h1>The game of matching objects</h1>
+<p> 
+ CS 640 Programming Assignment 2 <br>
+ Shifeng Li <br>
+ Teammate: Anrui Wang and Mingrui Yang<br>
+    2018/04/02 
+</p>
+
+<div class="main-body">
+<hr>
+<h2> Problem Definition </h2>
+<p>
+    <li> In this program assignment, we need to match he objects in one scene with the individual pictures 
+      of objects. Our data sources are one scene image full of objects and several pictures of individual objects. 
+      Moreover, the objects may be anywhere in the scene image with arbitrary size, orientation, or may be only partially visible. So, our goal is to use artificial intelligence algorithms/models, e.g., neural networks, to recognize and locate objects, which are IKEA products in our assignment. And our indoor scenes are from "IKEA galleries". We need to match as many objects as possible among the provided objects with their equivalent objects in the scene.
+    </li>
+</p>
+
+<hr>
+<h2> Method and Implementation </h2>
+<p>
+  <h3>Total Description</h3>
+    <li>
+      In this assignment, we use Convolutional Neural Networks (CNNs) to deal with the images. First, we translate the image into the form of matrices, then we apply convolutions for our images to get the features of the image according to the filters of individual objects' image. After that, we train our scene based on labels and optimize the weights. For the test part, we use VGG model which is a stable and classic model to handle that goal. The characteristic of VGG model is it can deal perfectly with the network model with many continuous convolutional layers. However, it has the disadvantage that it will cost a lot of time computing the results.      
+    </li>
+</p>
+ <h3>Code detail</h3>
+    <ol>
+        <li>Functions from "vggnetwork.py":</li>
+        <ul>
+            <li>__init__(self, vgg_npy_path=None, trainable=True, use_latter_layer = True, dropout=0.5, num_class = 1000)</li> <h3>#Initialize the parameters of CNN model.</h3>
+            <li>build(self, rgb, train_mode=None)</li> <h3>#Build the CNN model which has 19 layers.</h3>
+            <li>max_pool(self, bottom, name)</li> <h3>#Build a maximal pool for dimensionality reduction.</h3>
+            <li>conv_layer(self, bottom, in_channels, out_channels, name)</li> <h3>#Build the convolutional layers.</h3>
+            <li>fc_layer(self, bottom, in_size, out_size, name)</li>
+            <li>fc_layer2(self, bottom, in_size, out_size, name)</li> <h3>#Two kinds of full connection layers </h3>
+            <li>get_conv_var(self, filter_size, in_channels, out_channels, name)</li> 
+            <li>get_fc_var(self, in_size, out_size, name)</li>
+            <li>get_fc_var2(self, in_size, out_size,name)</li>
+            <li>get_var(self, initial_value, name, idx, var_name)</li> <h3>#Get variables.</h3>
+            <li>save_npy(self, sess, npy_path="./vgg19-save.npy")</li> <h3>#Save variables.</h3>
+            <li>get_var_count(self)</li> <h3>#Get the number of variables.</h3>
+        </ul>
+        <li>Functions from "trainandtest.py":</li>
+        <ul>
+            <li>build_bb(poly_v_lists)</li> <h3>#Build the boundary box for the image.</h3>
+            <li>read_img_train(path)</li> #Read in the image and train.
+            <li>getTestInfo(path, unique_label, L)</li> <h3>#Get the test information.</h3>
+            <li>minibatches(inputs=None, targets=None, batch_size=None, shuffle=False)</li> <h3>#Get the minimum of the batch</h3>
+        </ul>
+            <p> <h3> We also implement several kinds of transformations so that we can enlarge the number of our data examples and have more sources to train. According to this, we can prevent the overfit problem. Finally we have got 25018 training samples.</h3> </p>
+
+</ol>
+
+<hr>
+<h2>Experiments</h2>
+<h4>Datasets</h4>
+<p>We download the data sets from Google Drive Folder.</p>
+<h4>Number of tests</h4>
+<p>We test our code for three times. The best accuracy is 65%. And the respectively validation loss is 1.786.</p>
+<p>Here are some other training parameters:</p>
+<ol>
+    <li>batch size = 64</li>
+    <li>learning rate = 0.001</li>
+    <li>decay step learning rate = 100</li>
+    <li>decay rate of learning rate = 0.9</li>
+</ol>
+</hr>
+
+
+<hr>
+<h2> Results</h2>
+<p>
+<table>
+<tbody><tr><td colspan="3"><center></center></td></tr>
+<tr>
+</tr>
+<tr>
+<td></td> <td><h4> Source Image </h4></td> <td><h4> Result Image </h4></td> <td>
+</tr>
+<tr>
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_2/scene.jpg" width="360" height="230"> </td> 
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_2/1.JPG" width="360" height="230"> </td>
+    <td><img src="http://cs-people.bu.edu/mryang/CS640/Project_2/1.png" width="130" height="230"></td>  
+</tr> 
+
+</tr>
+<tr>
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_2/scene.jpg" width="360" height="230"> </td> 
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_2/4.JPG" width="360" height="230"> </td>
+    <td><img src="http://cs-people.bu.edu/mryang/CS640/Project_2/4.png" width="170" height="150"></td>  
+</tr> 
+
+</tr>
+<tr>
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_2/scene.jpg" width="360" height="230"> </td> 
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_2/7.JPG" width="360" height="230"> </td>
+    <td><img src="http://cs-people.bu.edu/mryang/CS640/Project_2/7.png" width="130" height="230"></td>  
+</tr> 
+
+</tr>
+<tr>
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_2/scene.jpg" width="360" height="230"> </td> 
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_2/8.JPG" width="270" height="230"> </td>
+    <td><img src="http://cs-people.bu.edu/mryang/CS640/Project_2/8.png" width="335" height="80"></td>  
+</tr> 
+
+</tr>
+<tr>
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_2/scene.jpg" width="360" height="230"> </td> 
+  <td> <img src="http://cs-people.bu.edu/mryang/CS640/Project_2/9.JPG" width="300" height="230"> </td>
+    <td><img src="http://cs-people.bu.edu/mryang/CS640/Project_2/9.png" width="300" height="100"></td>  
+</tr> 
+
+</tr>
+
+</tbody></table>
+</p>
+
+
+<hr>
+<h2> Discussion </h2>
+
+<p> 
+Discuss your method and results:
+</p><ul>
+<li>What are the strengths and weaknesses of your method? </li>
+<ol>
+    <li> Strengths:</li>
+    <p> In our CNN model, since our filters are 3*3 size of pixels, we don't have too many parameters (weights) of filter. We also use 2*2 VGG pooling layer, so that the stride is 2. Moreover, the VGG model will train the data layer by layer, so we can achieve the result of every training layer.</p>
+    <li> Weaknesses:</li>
+    <p> For our model, we need relatively more time to train our data sets. We also need large number of training data to get a better result for the accuracy.</p>
+  </ol>
+<li>Do your results show that your method is generally successful or
+     are there limitations? Describe what you expected to find in your
+     experiments, and how that differed or was confirmed by your
+     results. </li>
+    <p> There are relatively some limitations for our model since our accuracy is not so satisfying. </p>
+<li>Potential future work. How could your method be improved?   What
+would you try (if you had more time) to overcome the
+failures/limitations of your work?</li> 
+<p> We need to improve our accuracy. </p>
+</ul>
+
+<p></p>
+
+<hr>
+<h2> Conclusions </h2>
+
+<li>
+Based on your discussion, what are your conclusions?  What is your
+main message?
+</li>
+<p> We have got a barely satisfying result. But the scale of our input data samples are still not so large, which will influence our accuracy. So we need to get more training examples to achieve a better accuracy result.</p>
+
+
+
+<hr>
+<h2> Credits and Bibliography </h2>
+<p>
+</p>
+
+<li>
+Material on the web should include the url and date of access.
+</li>
+<ol>
+   <li> <a href="https://github.com/hjptriplebee/VGG19_with_tensorflow">https://github.com/hjptriplebee/VGG19_with_tensorflow </a></li>
+   <li> <a href="https://zhuanlan.zhihu.com/p/29513760">https://zhuanlan.zhihu.com/p/29513760 </a></li>
+   <li> <a href="http://www.cnblogs.com/52machinelearning/p/5821591.html">http://www.cnblogs.com/52machinelearning/p/5821591.html</a></li>
+</ol>
+
+
+<li>
+Credit any joint work or discussions with your classmates. 
+</li>
+<ol>
+  <li>
+    <p> Anrui Wang</p>
+  </li>
+  <li>
+    <p> Mingrui Yang</p>
+  </li>
+<hr>
+</div>
+
+</body></html>
